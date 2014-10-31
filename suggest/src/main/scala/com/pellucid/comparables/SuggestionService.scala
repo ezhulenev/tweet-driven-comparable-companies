@@ -3,6 +3,7 @@ package com.pellucid.comparables
 import com.pellucid.comparables.cassandra.CassandraService
 import com.pellucid.comparables.schema.{Recommendation, RecommendationRecord}
 import spray.http.StatusCodes._
+import spray.http.HttpHeaders._
 import spray.json._
 import spray.routing._
 import spray.util.LoggingContext
@@ -27,7 +28,7 @@ object SuggestionJsonProtocol extends DefaultJsonProtocol {
 
 class SuggestionService extends HttpServiceActor with CassandraService { module =>
 
-  implicit def myExceptionHandler(implicit log: LoggingContext) =
+  implicit def myExceptionHandler(implicit log: LoggingContext): ExceptionHandler =
     ExceptionHandler { case e: Throwable =>
       log.error(s"Service request failed: $e", e)
       requestUri { uri => complete(InternalServerError, e.getMessage) }
@@ -43,21 +44,34 @@ class SuggestionService extends HttpServiceActor with CassandraService { module 
   }
 
   val receive = runRoute {
-    path("companies") {
-      get {
-        complete {
-          companies
-        }
-      }
+    // Serve Static content
+    path("") {
+      get { getFromResource("webapp/index.html") }
     } ~
-    path("comparables" / CompanyTicker) { ticker =>
-      parameters('n.as[Int] ? 10) { (n) =>
+    pathPrefix("css") {
+      get { getFromResourceDirectory("webapp/css") }
+    } ~
+    pathPrefix("js") {
+      get { getFromResourceDirectory("webapp/js") }
+    } ~
+    // REST Api
+    respondWithHeader(RawHeader("Access-Control-Allow-Origin", "*")) {
+      path("companies") {
         get {
           complete {
-            import com.websudos.phantom.Implicits._
-            RecommendationRecord.select.
-              where(_.ticker eqs ticker.value).
-              and(_.position lt n.toLong).fetch()
+            companies
+          }
+        }
+      } ~
+      path("comparables" / CompanyTicker) { ticker =>
+        parameters('n.as[Int] ? 10) { (n) =>
+          get {
+            complete {
+              import com.websudos.phantom.Implicits._
+              RecommendationRecord.select.
+                where(_.ticker eqs ticker.value).
+                and(_.position lt n.toLong).fetch()
+            }
           }
         }
       }
