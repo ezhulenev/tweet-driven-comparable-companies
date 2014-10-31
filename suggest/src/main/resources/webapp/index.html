@@ -1,11 +1,40 @@
 <html>
-<link rel="stylesheet" type="text/css" href="css/comparables.css" />
-<script type="text/javascript" src="js/comparables.js"></script>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Auto-Suggest Comparables</title>
+    <link rel="stylesheet" type="text/css" href="css/comps.css">
+</head>
 <body>
-    <h1 class="comparables-text">Hello Comparables</h1>
+<div id="container">
+    <h2>Search Companies</h2>
+    <input type="text" id="searchInput" autocomplete="off" placeholder="Search companies by name"></input>
+    <p class="note hide">
+        This browser doesn't support Web Workers. Please try out this demo in modern browsers.
+    </p>
+    <div id="comparables"></div>
+</div>
 
-    <p id="demo">A Paragraph</p>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+<script type="text/javascript" src="js/comps.js"></script>
 
-    <button type="button" onclick="myFunction()">Try it</button>
+<script type="text/javascript">
+// bootstrap the code
+var ctrl1, autoCompleteDataSrc;
+(function()
+{
+	if(window.Worker) {
+    	var autoComplete = new controls.$AutoComplete(
+    		{
+    			id:"#searchInput",
+    			compsId: "#comparables",
+    			dataSrc: new data.$CompanyStore(),
+    			comparablesStore: new data.$ComparablesStore()
+    		});
+		autoComplete.init();
+	} else {
+		$("p.note").removeClass("hide");
+	}
+})();
+</script>
 </body>
 </html>
