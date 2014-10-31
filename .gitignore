@@ -1,0 +1,54 @@
+target/resolution-cache
+.DS_Store
+logs
+project/project
+project/target
+project/boot
+target
+tmp
+assets/chartReport.txt
+.history
+dist
+.idea/
+.idea_modules/
+.DS_Store
+*.swp
+*.swo
+*.pyc
+*.iml
+xcuserdata/
+bin/tmp-desktop.styl
+RUNNING_PID
+
+# floobits
+.floo
+.flooignore
+
+# CTags
+
+tags
+.tags
+.tags_sorted_by_file
+
+# eclipse
+.classpath
+.project
+.scala_dependencies
+.settings
+.buildpath
+.target
+
+# emacs
+.ensime*
+#*
+\.#*
+
+# vim
+.lvimrc
+
+# temp file
+.~*
+*~
+*.orig
+
+
