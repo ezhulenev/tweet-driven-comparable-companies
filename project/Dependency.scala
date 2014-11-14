@@ -17,7 +17,7 @@ object Dependency {
     val SprayJson          = "1.2.6"
 
     val Spark              = "1.1.0"
-    val SparkCassandra     = "1.1.0-SNAPSHOT"
+    val SparkCassandra     = "1.1.0-beta1"
 
     val Phantom            = "1.2.2"
 
