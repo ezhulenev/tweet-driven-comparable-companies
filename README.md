@@ -2,7 +2,7 @@
 
 ### Building comparable companies recommendations from Twitter live stream with Spark, Spark Streaming and Cassandra
 
-It's code for Pellucid IO Blog post: http://io.pellucid.com/blog/building-twitter-live-stream-analytics-with-spark-and-cassandra
+It's code for blog post: http://eugenezhulenev.com/blog/2014/11/20/twitter-analytics-with-spark/
 
 ## Testing
 
